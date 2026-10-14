@@ -1,0 +1,24 @@
+universe: csi500
+region: cn
+provider_uri: /data/dev
+benchmark: SH000905
+
+instruments_train:    csi500_full   # full historical universe — eliminates survivorship bias
+instruments_backtest: csi500        # point-in-time index — realistic execution
+
+label: "Ref($close, -2) / Ref($close, -1) - 1"
+
+segments:
+  train: ["2016-01-01", "2020-12-31"]
+  valid: ["2021-01-01", "2022-12-31"]
+  test:  ["2023-01-01", "2025-12-31"]
+
+portfolio:
+  topk: 50
+  n_drop: 5
+  account: 100000000
+  open_cost: 0.0005
+  close_cost: 0.0015
+  limit_threshold: 0.095
+  deal_price: open
+  min_cost: 5

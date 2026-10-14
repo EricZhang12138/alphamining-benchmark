@@ -1,0 +1,6 @@
+backbone: gpt-4o
+api_base: "https://api.openai.com/v1"
+model: gpt-4o
+max_tokens: 4096
+temperature: 0.7
+# Set LLM_API_KEY env var at runtime; never hardcode here
