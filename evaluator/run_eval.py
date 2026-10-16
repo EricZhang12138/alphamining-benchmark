@@ -50,7 +50,7 @@ def run_backtest(
 ) -> dict:
     import qlib
     from qlib.constant import REG_CN, REG_US
-    from qlib.contrib.model.gbdt import LGBModel
+    from qlib.contrib.model.linear import LinearModel
     from qlib.contrib.strategy import TopkDropoutStrategy
     from qlib.data.dataset import DatasetH
     from qlib.data.dataset.handler import DataHandlerLP
@@ -67,8 +67,6 @@ def run_backtest(
 
     qlib.init(provider_uri=str(data_dir), region=region)
 
-    # ── build feature list: Alpha158 + selected factors ──────────────────────
-    # Alpha158 handler as base
     base_handler_kwargs = dict(
         start_time=train_start,
         end_time=test_end,
@@ -86,17 +84,8 @@ def run_backtest(
     }
 
     model_params = dict(
-        loss="mse",
-        learning_rate=0.1,
-        max_depth=8,
-        num_leaves=210,
-        colsample_bytree=0.8879,
-        subsample=0.8789,
-        lambda_l1=205.6999,
-        lambda_l2=580.9768,
-        num_threads=20,
-        early_stopping_round=50,
-        num_boost_round=500,
+        estimator="ridge",
+        alpha=0.1,
     )
 
     exchange_kwargs = dict(
@@ -126,7 +115,7 @@ def run_backtest(
         )
 
         dataset = DatasetH(handler=handler, segments=segments)
-        model = LGBModel(**model_params)
+        model = LinearModel(**model_params)
         model.fit(dataset)
 
         pred = model.predict(dataset, segment="test")

@@ -2,6 +2,12 @@
 set -e
 
 # ── env ──────────────────────────────────────────────────────────────────────
+# Map orchestrator-injected vars to what AlphaAgent reads
+export OPENAI_API_KEY="${LLM_API_KEY:-${OPENAI_API_KEY:-}}"
+export OPENAI_BASE_URL="${LLM_API_BASE:-${OPENAI_BASE_URL:-https://api.openai.com/v1}}"
+export CHAT_MODEL="${BACKBONE:-gpt-5.2}"
+export REASONING_MODEL="${BACKBONE:-gpt-5.2}"
+
 export QLIB_DATA_DIR="${QLIB_DATA_DIR:-/data/dev}"
 export WORKSPACE_PATH="${WORKSPACE_PATH:-/app/AlphaAgent/git_ignore_folder/RD-Agent_workspace}"
 export PICKLE_CACHE_FOLDER_PATH_STR="${PICKLE_CACHE_FOLDER_PATH_STR:-/app/AlphaAgent/pickle_cache}"
